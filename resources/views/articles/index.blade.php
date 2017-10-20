@@ -7,13 +7,30 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <style>
+    .rounded {
+      border-color: #fff;
+      padding: 10px;
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-width: 1px;
+    }
+    </style>
   </head>
   <body>
+    <div class="container rounded">
     <ul>
       @foreach ($articles as $article)
-        <li>{{ $article->id }}.<a href="https://ria.ru{{ $article->link }}"> {{ $article->title }}</a>, {{ $article->date }}, {{$article->time}}</li>
+      <div class="row poster">
+        <div class="col-md-3"><img src="{{ $article->pic_link }}"></div>
+          <div class="col-md-8">{{ $article->id }}.<a href="https://ria.ru{{ $article->link }}"> {{ $article->title }}</a>, <p>{{ $article->date }}, {{$article->time}}</p>
+          </div>
+
+      </div>
+      <hr>
       @endforeach
     </ul>
+  </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

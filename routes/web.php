@@ -49,9 +49,4 @@ Route::get('/ria-lenta-links', function () {
     //return view('welcome');
 });
 
-Route::get('/articles', function () {
-	$articles = Article::all()
-		->sortByDesc("id");
-
-    return view('articles.index', array('articles' => $articles));
-});
+Route::get('/articles', 'ArticleController@showAction');
