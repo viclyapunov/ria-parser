@@ -37,11 +37,17 @@ Route::get('/ria-lenta-links', function () {
     $crawler->filter('.b-list .b-list__item')->each(function ($node) {
       $a = new Article();
       $a->link = $node->filter('a')->attr('href');
+
+
       $a->pic_link = $node->filter('a .b-list__item-img .b-list__item-img-ind img')->attr('src');
 
       $a->title = $node->filter('a .b-list__item-title')->text();
       $a->date = $node->filter('.b-list__item-info .b-list__item-date')->text();
       $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
+
+        $crawler = Goutte::request('GET', $a->link);
+        $a->body = $crawler->filter('.b-article__body p')->text();
+
       $article = Article::where('link', '=', $a->link)->first();
       if ($article === null)
       	$a->save();
@@ -49,9 +55,13 @@ Route::get('/ria-lenta-links', function () {
     //return view('welcome');
 });
 
-Route::get('/articles', function () {
-	$articles = Article::all()
-		->sortByDesc("id");
+Route::get('/articles', 'ArticleController@showAction');
 
-    return view('articles.index', array('articles' => $articles));
+Route::get('/article-bodies', function () {
+    $crawler = Goutte::request('GET', 'https://ria.ru/lenta/');
+    $crawler->filter('.b-list .b-list__item')->each(function ($node) {
+        $link = $node->filter('a')->attr('href');
+        $crawler = Goutte::request('GET', $link);
+        $body = $crawler->filter('.b-article__body')->text();
+    });
 });
