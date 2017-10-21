@@ -142,6 +142,8 @@
         <script>
       $('#download').click(function(){
         $('.cssload-whirlpool').css("visibility", "visible");
+        $(this).prop("disabled",true);
+        $(this).removeClass('btn-outline-success').addClass('btn-secondary');
       });
     </script>
   </body>
