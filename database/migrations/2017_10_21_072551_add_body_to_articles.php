@@ -14,7 +14,7 @@ class AddBodyToArticles extends Migration
     public function up()
     {
         Schema::table('articles', function (Blueprint $table) {
-            $table->text('body')->after('title');
+            $table->text('body')->nullable()->after('title');
         });
     }
 

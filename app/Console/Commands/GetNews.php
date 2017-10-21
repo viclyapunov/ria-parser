@@ -43,20 +43,29 @@ class GetNews extends Command
     {
         $evt = new Event("news:get command started");
         $evt->save();
-        $crawler = Goutte::request('GET',  'https://ria.ru/lenta/');
+            $crawler = Goutte::request('GET',  'https://ria.ru/lenta/');
         $crawler->filter('.b-list .b-list__item')->each(function ($node) {
-            $a = new Article();
-            $a->link = $node->filter('a')->attr('href');
-            $a->pic_link = $node->filter('a .b-list__item-img .b-list__item-img-ind img')->attr('src');
-            $a->title = $node->filter('a .b-list__item-title')->text();
-            $a->date = $node->filter('.b-list__item-info .b-list__item-date')->text();
-            $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
-            $article = Article::where('link', '=', $a->link)->first();
-            if ($article === null){
-              $a->save();
-            }
-        });
+      $a = new Article();
+      $a->link = $node->filter('a')->attr('href');
+
+
+      $a->pic_link = $node->filter('a .b-list__item-img .b-list__item-img-ind img')->attr('src');
+
+      $a->title = $node->filter('a .b-list__item-title')->text();
+      $a->date = $node->filter('.b-list__item-info .b-list__item-date')->text();
+      $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
+
+        $crawler = Goutte::request('GET', $a->link);
+        $a->body = $crawler->filter('.b-article__body p')->text();
+
+      $article = Article::where('link', '=', $a->link)->first();
+      if ($article === null)
+        $a->save();
+    });
         $evt = new Event("got news from ria.");
         $evt->save();
+
+
+
     }
 }
