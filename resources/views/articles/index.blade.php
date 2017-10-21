@@ -27,6 +27,7 @@
         <div class="row poster">
           <div class="col-md-3"><img src="{{ $article->pic_link }}"></div>
           <div class="col-md-8">{{ $article->id }}.<a href="https://ria.ru{{ $article->link }}"> {{ $article->title }}</a><p>{{ $article->date }}, {{$article->time}}</p>
+            <p>{{ $article->body }}</p>
           </div>
         </div>
         <hr>
