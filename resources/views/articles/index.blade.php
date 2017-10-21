@@ -22,18 +22,18 @@
   </head>
   <body>
     <div class="container rounded">
-    <ul>
-      @foreach ($articles as $article)
-      <div class="row poster">
-        <div class="col-md-3"><img src="{{ $article->pic_link }}"></div>
-        <div class="col-md-8">{{ $article->id }}.<a href="https://ria.ru{{ $article->link }}"> {{ $article->title }}</a><p>{{ $article->date }}, {{$article->time}}</p>
+      <ul>
+        @foreach ($articles as $article)
+        <div class="row poster">
+          <div class="col-md-3"><img src="{{ $article->pic_link }}"></div>
+          <div class="col-md-8">{{ $article->id }}.<a href="https://ria.ru{{ $article->link }}"> {{ $article->title }}</a><p>{{ $article->date }}, {{$article->time}}</p>
+          </div>
         </div>
-      </div>
-      <hr>
-      @endforeach
-    </ul>
-    <?= $articles->links(); ?>
-  </div>
+        <hr>
+        @endforeach
+      </ul>
+      <?= $articles->links('pagination::bootstrap-4'); ?>
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
