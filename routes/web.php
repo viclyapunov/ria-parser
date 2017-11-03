@@ -55,7 +55,7 @@ Route::get('/ria-lenta-links', function () {
     return redirect('articles');
 })->name('ria-lenta-links');
 
-Route::get('/articles', 'ArticleController@showAction')->name('articles');
+Route::get('/articles', 'ArticleController@indexAction')->name('articles');
 
 Route::get('/article-bodies', function () {
     $crawler = Goutte::request('GET', 'https://ria.ru/lenta/');
@@ -65,3 +65,5 @@ Route::get('/article-bodies', function () {
         $body = $crawler->filter('.b-article__body')->text();
     });
 });
+
+Route::get('article/{id}', 'ArticleController@showAction')->name('show');

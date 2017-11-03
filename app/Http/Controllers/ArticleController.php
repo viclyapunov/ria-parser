@@ -8,10 +8,18 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    public function showAction()
+    public function indexAction()
     {
     	$articles = Article::orderBy('id', 'desc')->paginate(15);
 
     	return view('articles.index', array('articles' => $articles));
+    }
+
+    public function showAction($id)
+    {
+
+    	$article = Article::findOrFail($id);
+
+    	return view('articles.show', array('article' => $article));
     }
 }

@@ -56,7 +56,10 @@ class GetNews extends Command
       $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
 
         $crawler = Goutte::request('GET', $a->link);
-        $a->body = $crawler->filter('.b-article__body p')->text();
+        $a->body = implode($crawler->filter('.b-article__body p')->each(function (Crawler $node, $i) {
+            return $node->text();
+        }));
+        dd($a->body);
 
       $article = Article::where('link', '=', $a->link)->first();
       if ($article === null)
@@ -64,8 +67,6 @@ class GetNews extends Command
     });
         $evt = new Event("got news from ria.");
         $evt->save();
-
-
 
     }
 }
