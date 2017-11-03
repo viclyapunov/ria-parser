@@ -33,26 +33,7 @@ Route::get('/ria-lenta', function () {
 });
 
 Route::get('/ria-lenta-links', function () {
-	$crawler = Goutte::request('GET',  'https://ria.ru/lenta/');
-    $crawler->filter('.b-list .b-list__item')->each(function ($node) {
-      $a = new Article();
-      $a->link = $node->filter('a')->attr('href');
-
-
-      $a->pic_link = $node->filter('a .b-list__item-img .b-list__item-img-ind img')->attr('src');
-
-      $a->title = $node->filter('a .b-list__item-title')->text();
-      $a->date = $node->filter('.b-list__item-info .b-list__item-date')->text();
-      $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
-
-        $crawler = Goutte::request('GET', $a->link);
-        $a->body = $crawler->filter('.b-article__body p')->text();
-
-      $article = Article::where('link', '=', $a->link)->first();
-      if ($article === null)
-      	$a->save();
-    });
-    return redirect('articles');
+    Artisan::call('news:get');
 })->name('ria-lenta-links');
 
 Route::get('/articles', 'ArticleController@indexAction')->name('articles');

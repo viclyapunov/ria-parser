@@ -56,10 +56,9 @@ class GetNews extends Command
       $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
 
         $crawler = Goutte::request('GET', $a->link);
-        $a->body = implode($crawler->filter('.b-article__body p')->each(function (Crawler $node, $i) {
+        $a->body = implode(" ",$crawler->filter('.b-article__body p')->each(function (Crawler $node, $i) {
             return $node->text();
         }));
-        dd($a->body);
 
       $article = Article::where('link', '=', $a->link)->first();
       if ($article === null)
