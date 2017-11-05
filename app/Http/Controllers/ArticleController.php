@@ -17,7 +17,6 @@ class ArticleController extends Controller
 
     public function showAction($id)
     {
-
     	$article = Article::findOrFail($id);
 
     	return view('articles.show', array('article' => $article));

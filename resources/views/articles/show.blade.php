@@ -87,8 +87,11 @@ body {
           <hr>
 
           <!-- Preview Image -->
-          <img src="{{ $article->pic_link }}">
-
+          @if(!empty($article->pic_link_large))
+            <img src="{{ $article->pic_link_large }}">
+          @else
+            <img src="{{ $article->pic_link }}">
+          @endif
           <hr>
 
           <!-- Post Content -->
