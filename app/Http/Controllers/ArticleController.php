@@ -10,8 +10,8 @@ class ArticleController extends Controller
 {
     public function indexAction()
     {
-    	$articles = Article::orderBy('id', 'desc')->paginate(15);
-
+    	//$articles = Article::orderBy('id', 'desc')->paginate(15);
+        $articles = Article::orderBy('date_time', 'desc')->paginate(15);
     	return view('articles.index', array('articles' => $articles));
     }
 
