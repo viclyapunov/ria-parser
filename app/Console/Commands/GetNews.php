@@ -55,6 +55,7 @@ class GetNews extends Command
       $a->title = $node->filter('a .b-list__item-title')->text();
       $a->date = $node->filter('.b-list__item-info .b-list__item-date')->text();
       $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
+      $a->date_time = \DateTime::createFromFormat('d.m.Y H:i', $a->date . ' ' . $a->time);
 
         $crawler = Goutte::request('GET', $a->link);
         $a->body = implode(" ",$crawler->filter('.b-article__body p')->each(function (Crawler $node, $i) {
