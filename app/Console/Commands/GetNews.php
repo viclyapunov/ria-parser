@@ -60,7 +60,7 @@ class GetNews extends Command
         $a->body = implode(" ",$crawler->filter('.b-article__body p')->each(function (Crawler $node, $i) {
             return $node->text();
         }));
-        $crawler = Goutte::request('GET', $a->link);
+
         $a->pic_link_large = $crawler->filter('div.l-photoview__open > img')->attr('src');
 
       $article = Article::where('link', '=', $a->link)->first();
