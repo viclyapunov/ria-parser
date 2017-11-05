@@ -51,6 +51,7 @@ class GetNews extends Command
 
       $a->pic_link = $node->filter('a .b-list__item-img .b-list__item-img-ind img')->attr('src');
 
+
       $a->title = $node->filter('a .b-list__item-title')->text();
       $a->date = $node->filter('.b-list__item-info .b-list__item-date')->text();
       $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
@@ -59,6 +60,8 @@ class GetNews extends Command
         $a->body = implode(" ",$crawler->filter('.b-article__body p')->each(function (Crawler $node, $i) {
             return $node->text();
         }));
+
+        $a->pic_link_large = $crawler->filter('div.l-photoview__open > img')->attr('src');
 
       $article = Article::where('link', '=', $a->link)->first();
       if ($article === null)
