@@ -45,31 +45,32 @@ class GetNews extends Command
         $evt->save();
             $crawler = Goutte::request('GET',  'https://ria.ru/lenta/');
         $crawler->filter('.b-list .b-list__item')->each(function ($node) {
-      $a = new Article();
-      $a->link = $node->filter('a')->attr('href');
+          $a = new Article();
+          $a->link = $node->filter('a')->attr('href');
+          $a->link = 'https://ria.ru' . $a->link;
+
+          $a->pic_link = $node->filter('a .b-list__item-img .b-list__item-img-ind img')->attr('src');
 
 
-      $a->pic_link = $node->filter('a .b-list__item-img .b-list__item-img-ind img')->attr('src');
+          $a->title = $node->filter('a .b-list__item-title')->text();
+          $a->date = $node->filter('.b-list__item-info .b-list__item-date')->text();
+          $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
+          $a->date_time = \DateTime::createFromFormat('d.m.Y H:i', $a->date . ' ' . $a->time);
 
+            $crawler = Goutte::request('GET', $a->link);
+            $a->body = implode(" ",$crawler->filter('.b-article__body p')->each(function (Crawler $node, $i) {
+                return $node->text();
+            }));
 
-      $a->title = $node->filter('a .b-list__item-title')->text();
-      $a->date = $node->filter('.b-list__item-info .b-list__item-date')->text();
-      $a->time = $node->filter('.b-list__item-info .b-list__item-time')->text();
-      $a->date_time = \DateTime::createFromFormat('d.m.Y H:i', $a->date . ' ' . $a->time);
+            $a->pic_link_large = $crawler->filter('div.l-photoview__open > img')->attr('src');
 
-        $crawler = Goutte::request('GET', $a->link);
-        $a->body = implode(" ",$crawler->filter('.b-article__body p')->each(function (Crawler $node, $i) {
-            return $node->text();
-        }));
-
-        $a->pic_link_large = $crawler->filter('div.l-photoview__open > img')->attr('src');
-
-      $article = Article::where('link', '=', $a->link)->first();
-      if ($article === null)
-        $a->save();
+          $article = Article::where('link', '=', $a->link)->first();
+          if ($article === null)
+            $a->save();
+            $evt = new Event("got news from ria.");
+            $evt->save();
     });
-        $evt = new Event("got news from ria.");
-        $evt->save();
+
 
     }
 }
