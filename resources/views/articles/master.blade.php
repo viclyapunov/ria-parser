@@ -22,6 +22,10 @@ body {
   padding-top: 54px;
 }
 
+.content_img {
+  max-width: 230px;
+}
+
 @media (min-width: 992px) {
   body {
     padding-top: 56px;

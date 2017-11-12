@@ -27,6 +27,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
         $schedule->command('news:get')->hourly();
+        $schedule->command('regnum:get')->hourly();
     }
 
     /**
