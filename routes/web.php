@@ -1,5 +1,6 @@
 <?php
 use Symfony\Component\DomCrawler\Crawler;
+use App\Http\Resources\Article as ArticleResource;
 use App\Article;
 /*
 |--------------------------------------------------------------------------
@@ -48,3 +49,7 @@ Route::get('/article-bodies', function () {
 });
 
 Route::get('article/{id}', 'ArticleController@showAction')->name('show');
+
+Route::get('/articlesapi', function () {
+    return ArticleResource::collection(Article::all());
+});
